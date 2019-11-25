@@ -1,2 +1,2 @@
 # QuizGame
-A quiz game with timers, persistence and trivia API for open-ended questions
+A quiz game with timers, persistence and trivia API for open-ended questions using Material Design framework
