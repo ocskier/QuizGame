@@ -1,3 +1,16 @@
 body {
     background: lightgreen;
 }
+
+.demo-card {
+    margin-top: 160px !important;
+}
+
+#choices {
+    display: flex;
+    flex-direction: column;
+}
+
+#submit {
+    background: rgb(148, 235, 235);
+}
