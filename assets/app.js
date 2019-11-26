@@ -21,18 +21,12 @@ async function start() {
       );
       questionArr = data.results;
       localStorage.setItem("questionData", JSON.stringify(questionArr));
-      // data.results.map(item=>{
-      //     const li = document.createElement('li');
-      //     li.textContent = item.question;
-      //     listEl.append(li);
-      // })
-      //   AIzaSyD_tgpw_aI3elBJ3FQzH5kqi00Qep6jXxM
     } catch (error) {
       console.error(error);
     }
     try {
-        let googleUrl = 'https://www.googleapis.com//customsearch/v1?';
-        googleUrl += 'key=AIzaSyD_tgpw_aI3elBJ3FQzH5kqi00Qep6jXxM';
+        let googleUrl = 'https://www.googleapis.com//customsearch/v1?key=';
+        googleUrl += process.env.GOOGLE_KEY;
         googleUrl += '&cx=016797827939605093875:zpsbjfzch8y';
         googleUrl += '&searchType=image&q=';
         googleUrl += questionArr[0].correct_answer;
