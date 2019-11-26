@@ -26,7 +26,7 @@ async function start() {
     }
     try {
         let googleUrl = 'https://www.googleapis.com//customsearch/v1?key=';
-        googleUrl += process.env.GOOGLE_KEY;
+        googleUrl += process.env.GOOGLE_SEARCH_KEY;
         googleUrl += '&cx=016797827939605093875:zpsbjfzch8y';
         googleUrl += '&searchType=image&q=';
         googleUrl += questionArr[0].correct_answer;
@@ -35,7 +35,6 @@ async function start() {
         const picsResponse  = await getData(googleUrl);
         pics = picsResponse.items;
         localStorage.setItem("picData", JSON.stringify(pics));
-        console.log(pics);
     } catch (error) {
         console.log(error);
     }
@@ -91,7 +90,6 @@ async function getData(url = "", cors = 'cors') {
     redirect: "follow",
     referrer: "no-referrer",
   });
-  console.log(response);
   return await response.json();
 }
 
@@ -112,7 +110,11 @@ function checkUserGuess() {
             userGuess = i
         }
     });
-    console.log(userGuess);
+    if (document.getElementById('checkbox-'+userGuess).parentNode.parentNode.children[1].textContent === questionArr[0].correct_answer) {
+        alert("Correct Answer!")
+    } else {
+        alert("Wrong!!!!!!!!!")
+    }
 }
 
 submitBtn.addEventListener("click", checkUserGuess);
