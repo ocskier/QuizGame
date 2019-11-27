@@ -17,17 +17,25 @@
   </head>
   <body>
     <div>
-      <header class="mdc-top-app-bar mdc-top-app-bar--short">
+      <header
+        class="mdc-top-app-bar mdc-top-app-bar--short"
+        style="background: transparent;"
+      >
         <div class="mdc-top-app-bar__row">
           <section
             class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start"
+            style="justify-content: space-between;"
           >
             <button
               class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button"
             >
               menu
             </button>
-            <span class="mdc-top-app-bar__title">Quiz Game</span>
+            <span
+              class="mdc-top-app-bar__title"
+              style="font-size: 2.1rem; color: black"
+              >Quiz Game</span
+            >
           </section>
           <section
             class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end"
@@ -44,7 +52,7 @@
       </header>
       <div
         class="mdc-card demo-card"
-        style="margin: 40px auto 0;max-width: 756px;padding:10px;"
+        style="margin: 40px auto 80px;max-width: 756px;padding:10px;"
       >
         <div
           class="mdc-card__primary-action demo-card__primary-action"
@@ -99,6 +107,7 @@
       </div>
     </div>
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-    <script src="./assets/app.js"></script>
+    <script type="text/javascript" src="./assets/progress-ring.js"></script>
+    <script type="text/javascript" src="./assets/app.js"></script>
   </body>
 </html>
