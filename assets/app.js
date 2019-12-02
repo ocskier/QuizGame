@@ -3,18 +3,18 @@ const picEl = document.getElementById("questionPic");
 const choicesEl = document.getElementById("choices");
 const submitBtn = document.getElementById("submit");
 const topAppBarElement = document.querySelector('.mdc-top-app-bar');
+const resultsDiv = document.getElementById("results");
 
 let inputEls = document.querySelectorAll('input');
-let i = 0;
-let interval = 0;
+let i = 0, interval = 0, numRight = 0, numWrong = 0;
 let count = 20;
 let progress = 100;
 let userGuess;
 
 window.customElements.define('progress-ring', ProgressRing);
 
-questionArr = [];
-pics = [];
+let questionArr = [];
+let pics = [];
 
 let newTimeIndicator = document.createElement("div");
 newTimeIndicator.setAttribute("id", "time-indicator");
@@ -38,7 +38,14 @@ async function load() {
       const data = await getData(
         "https://opentdb.com/api.php?amount=10&category=20&difficulty=easy&type=multiple"
       );
-      questionArr = data.results;
+      questionArr = data.results.map(question=>{
+        return (
+          {
+            ...question,
+            question: question.question.replace(/&#039;/g,"'").replace("&amp;","&")
+          }
+        )
+      });
       localStorage.setItem("questionData", JSON.stringify(questionArr));
     } catch (error) {
       console.error(error);
@@ -82,8 +89,9 @@ function start () {
     );
     choicesEl.innerHTML = "";
     questionEl.textContent = questionArr[i].question;
-    const choices = questionArr[i].incorrect_answers;
-    choices.push(questionArr[i].correct_answer);
+    const choicesOrdered = questionArr[i].incorrect_answers;
+    choicesOrdered.push(questionArr[i].correct_answer);
+    const choices = choicesOrdered.sort((a, b) => 0.5 - Math.random());  
     for (let i = 0; i < choices.length; i++) {
         let checkboxDiv = document.createElement('div');
         checkboxDiv.setAttribute('class','mdc-checkbox');
@@ -118,6 +126,10 @@ function start () {
     }
     inputEls = document.querySelectorAll('input');
   } else {
+    if ((numRight*100)/(numRight+numWrong) > 50) {
+      resultsDiv.setAttribute("style", "display: block");
+      resultsDiv.setAttribute("class", "animated zoomIn");
+    }
     clearInterval(interval);
   }
 }
@@ -143,9 +155,13 @@ function checkUserGuess() {
     });
     if (answerChecked){
       if (document.getElementById('checkbox-'+userGuess).parentNode.parentNode.children[1].textContent === questionArr[i].correct_answer) {
-        alert("Correct Answer!")
+        alert("Correct Answer!");
+        numRight++;
+        resetQuestion(true);
       } else {
-        alert("Wrong!!!!!!!!!")
+        alert("Wrong!!!!!!!!!");
+        numWrong++;
+        resetQuestion(true);
       }
     } else {
       alert("No answer checked!");
@@ -159,11 +175,19 @@ function decrement() {
     progress -= 5;
     progressRing.setAttribute('progress',progress);
   } else {
-    count = 20;
-    progress = 100;
-    i++;
-    start();
+    resetQuestion();
   }
+}
+
+function resetQuestion(restartClock = false) {
+    restartClock && clearInterval(interval);
+    i++;
+    count=20;
+    progress=100;
+    if (restartClock) {
+      interval = setInterval(decrement,1000);
+    }
+    start();
 }
 
 document.addEventListener('scroll', function() {
@@ -181,6 +205,3 @@ async function run() {
   interval = setInterval(decrement, 1000);
 }
 run();
-
-
-
