@@ -17,6 +17,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"
     />
     <link href="./assets/style.css" type="text/css" rel="stylesheet" />
+    <!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
     <title>API-Trivia</title>
   </head>
   <body>
@@ -45,6 +46,13 @@
             class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end"
             role="toolbar"
           >
+            <button
+              id="sign-in-or-out-button"
+              onclick="trySampleRequest();"
+              style="margin-left: 25px"
+            >
+              Sign In/Authorize
+            </button>
             <button
               class="material-icons mdc-top-app-bar__action-item mdc-icon-button"
               aria-label="Bookmark this page"
@@ -114,6 +122,14 @@
       </div>
     </div>
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <script type="text/javascript" src="./assets/googleAuth.js"></script>
+    <!-- <script
+      async
+      defer
+      src="https://apis.google.com/js/api.js"
+      onload="this.onload=function(){};handleClientLoad()"
+      onreadystatechange="if (this.readyState === 'complete') this.onload()"
+    ></script> -->
     <script type="text/javascript" src="./assets/progress-ring.js"></script>
     <script type="text/javascript" src="./assets/app.js"></script>
   </body>

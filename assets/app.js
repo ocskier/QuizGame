@@ -128,7 +128,6 @@ function start () {
   } else {
     if ((numRight*100)/(numRight+numWrong) > 50) {
       resultsDiv.setAttribute("style", "display: block");
-      resultsDiv.setAttribute("class", "animated zoomIn");
     }
     clearInterval(interval);
   }
@@ -205,3 +204,26 @@ async function run() {
   interval = setInterval(decrement, 1000);
 }
 run();
+
+var GoogleAuth; // Google Auth object.
+function initClient() {
+  gapi.client.init({
+      'apiKey': '',
+      'clientId': '748578261822-cgsg0pirpmf3q0q1vg28tf3icanigk03.apps.googleusercontent.com',
+      'scope': 'https://www.googleapis.com/auth/drive.metadata.readonly',
+      'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
+  }).then(function () {
+      GoogleAuth = gapi.auth2.getAuthInstance();
+
+      // Listen for sign-in state changes.
+      GoogleAuth.isSignedIn.listen(updateSigninStatus);
+  });
+}
+
+// function onSignIn(googleUser) {
+//   var profile = googleUser.getBasicProfile();
+//   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+//   console.log('Name: ' + profile.getName());
+//   console.log('Image URL: ' + profile.getImageUrl());
+//   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+// }
