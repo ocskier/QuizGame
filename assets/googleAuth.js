@@ -1,4 +1,4 @@
-var YOUR_CLIENT_ID = '748578261822-cgsg0pirpmf3q0q1vg28tf3icanigk03.apps.googleusercontent.com';
+var YOUR_CLIENT_ID = '748578261822-9395qosbcqa1ei4t2bvem89ijebv493p.apps.googleusercontent.com';
 var YOUR_REDIRECT_URI = 'https://ocskier.github.io/QuizGame/';
 var fragmentString = location.hash.substring(1);
 // seEeYsVEFOvf_dP0oI52AEzp
