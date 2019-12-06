@@ -27,7 +27,8 @@ if (params && params['access_token']) {
         'access_token=' + params['access_token']);
     xhr.onreadystatechange = function (e) {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log(xhr.response);
+            // console.log(xhr.response);
+            console.log(xhr.response.user);
             localStorage.setItem('user',xhr.response.user.displayName.split(' ')[0]);
         } else if (xhr.readyState === 4 && xhr.status === 401) {
             // Token invalid, so prompt for user permission.
