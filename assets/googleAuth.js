@@ -28,7 +28,7 @@ if (params && params['access_token']) {
     xhr.onreadystatechange = function (e) {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log(xhr.response);
-            localStorage.setItem('user',xhr.response.displayName.split(' ')[0]);
+            localStorage.setItem('user',xhr.response.user.displayName.split(' ')[0]);
         } else if (xhr.readyState === 4 && xhr.status === 401) {
             // Token invalid, so prompt for user permission.
             oauth2SignIn();
