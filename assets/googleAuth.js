@@ -26,12 +26,13 @@ if (params && params['access_token']) {
         'https://www.googleapis.com/drive/v3/about?fields=user&' +
         'access_token=' + params['access_token']);
     xhr.onreadystatechange = function (e) {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        console.log(xhr.response);
-    } else if (xhr.readyState === 4 && xhr.status === 401) {
-        // Token invalid, so prompt for user permission.
-        oauth2SignIn();
-    }
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.response);
+            localStorage.setItem('user',xhr.response.displayName.split(' ')[0]);
+        } else if (xhr.readyState === 4 && xhr.status === 401) {
+            // Token invalid, so prompt for user permission.
+            oauth2SignIn();
+        }
     };
     xhr.send(null);
 } else {
