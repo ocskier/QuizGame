@@ -15,6 +15,7 @@ window.customElements.define('progress-ring', ProgressRing);
 
 let questionArr = [];
 let pics = [];
+let user, userScores;
 
 let newTimeIndicator = document.createElement("div");
 newTimeIndicator.setAttribute("id", "time-indicator");
@@ -66,6 +67,16 @@ async function load() {
       } 
     }
     localStorage.setItem("picData", JSON.stringify(pics));
+  }
+  if(localStorage.getItem("user")) {
+    user = localStorage.getItem("user");
+  } else {
+    user = null;
+  }
+  if(localStorage.getItem("scores")) {
+    userScores = JSON.parse(localStorage.getItem("scores"));
+  } else {
+    userScores = [];
   }
 }
 
@@ -126,9 +137,14 @@ function start () {
     }
     inputEls = document.querySelectorAll('input');
   } else {
-    if ((numRight*100)/(numRight+numWrong) > 50) {
-      resultsDiv.setAttribute("style", "display: block");
-    }
+    let userScore = {
+      user: user,
+      score: (numRight*100)/(numRight+numWrong)
+    };
+    userScores.push(userScore);
+    localStorage.setItem("scores",JSON.stringify(userScores));
+    resultsDiv.textContent = userScore.score;
+    resultsDiv.setAttribute("style", "display: block");
     clearInterval(interval);
   }
 }
@@ -174,6 +190,7 @@ function decrement() {
     progress -= 5;
     progressRing.setAttribute('progress',progress);
   } else {
+    numWrong++;
     resetQuestion();
   }
 }
@@ -191,10 +208,10 @@ function resetQuestion(restartClock = false) {
 
 document.addEventListener('scroll', function() {
     topAppBarElement.setAttribute('class','mdc-top-app-bar mdc-top-app-bar--short mdc-top-app-bar--short-collapsed');
-    topAppBarElement.children[0].children[1].children[0].setAttribute('style','display: none');
+    for (el of topAppBarElement.children[0].children[1].children) {el.setAttribute('style','display: none')};
     if(this.scrollingElement.scrollTop===0) {
         topAppBarElement.setAttribute('class','mdc-top-app-bar mdc-top-app-bar--short');
-        topAppBarElement.children[0].children[1].children[0].setAttribute('style','display: inline-block');
+        for (el of topAppBarElement.children[0].children[1].children) {el.setAttribute('style','display: inline-block')};
     }
 });
 submitBtn.addEventListener("click", checkUserGuess);
