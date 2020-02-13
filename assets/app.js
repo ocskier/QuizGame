@@ -9,6 +9,7 @@ let inputEls = document.querySelectorAll('input');
 let i = 0, interval = 0, numRight = 0, numWrong = 0;
 let count = 20;
 let progress = 100;
+let score = 0;
 let userGuess;
 
 window.customElements.define('progress-ring', ProgressRing);
@@ -43,7 +44,7 @@ async function load() {
         return (
           {
             ...question,
-            question: question.question.replace(/&#039;/g,"'").replace("&amp;","&")
+            question: question.question.replace(/&#039;/g,"'").replace("&amp;","&").replace(/&quot;/g,'"')
           }
         )
       });
@@ -67,11 +68,6 @@ async function load() {
       } 
     }
     localStorage.setItem("picData", JSON.stringify(pics));
-  }
-  if(localStorage.getItem("user")) {
-    user = localStorage.getItem("user");
-  } else {
-    user = null;
   }
   if(localStorage.getItem("scores")) {
     userScores = JSON.parse(localStorage.getItem("scores"));
@@ -137,14 +133,20 @@ function start () {
     }
     inputEls = document.querySelectorAll('input');
   } else {
+    if(localStorage.getItem("user")) {
+      user = localStorage.getItem("user");
+    } else {
+      user = null;
+    }
     let userScore = {
       user: user,
-      score: (numRight*100)/(numRight+numWrong)
+      score: score
     };
     userScores.push(userScore);
     localStorage.setItem("scores",JSON.stringify(userScores));
-    resultsDiv.textContent = userScore.score;
+    resultsDiv.textContent = `You answered ${numRight} correct, ${numWrong} incorrect with an overall score of ${score}!`;
     resultsDiv.setAttribute("style", "display: block");
+    score = 0;
     clearInterval(interval);
   }
 }
@@ -172,6 +174,7 @@ function checkUserGuess() {
       if (document.getElementById('checkbox-'+userGuess).parentNode.parentNode.children[1].textContent === questionArr[i].correct_answer) {
         alert("Correct Answer!");
         numRight++;
+        score += count;
         resetQuestion(true);
       } else {
         alert("Wrong!!!!!!!!!");
